@@ -1,0 +1,10 @@
+
+<div class="ui-g ui-g-12">
+<button id=add pButton (click)="addPart()" label="Add part" icon="fa-microchip"></button>
+</div>
+
+<p-dataTable [value]="parts">
+    <p-column field="name" header="Nom"></p-column>
+    <p-column field="partType" header="Type de composant"></p-column>
+    <p-column field="count" header="Quantité"></p-column>
+</p-dataTable>

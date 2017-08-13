@@ -1,0 +1,26 @@
+
+
+<form (ngSubmit)="save()" #aForm="ngForm">
+<div class="form-block">
+<label>Edition de composants électronique</label>
+	<div class="form-group">
+		<label for="id1" class="required">Nom du composant</label>
+		<label for="id1" class="tooltip tooltip-validation tooltip-md"
+				[class.invalid]="partName.invalid && partName.touched">
+			<input id="id1" type="text" name="name" [(ngModel)]="newPart.name" #partName="ngModel" required minlength=5>
+			<span *ngIf="partName.hasError('required')" class="tooltip-content">un nom doit être saisie</span>
+			<span *ngIf="partName.hasError('minlength')" class="tooltip-content">Le nom doit avoir 5 caractères minimum</span>
+		</label>
+	</div>
+	<div class="form-group">
+		<label for="id2">type</label>
+		<input id="id2" type="text" name="type" [(ngModel)]="newPart.partType">
+	</div>
+	<div class="form-group">	
+		<label for="id3">Nombre de composant</label>
+		<input id="id3" type="number" name="count" [(ngModel)]="newPart.count">
+	</div>
+</div>
+
+<button type="submit" class="btn btn-primary" [disabled]="aForm.invalid">save</button>
+</form>
