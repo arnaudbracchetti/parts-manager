@@ -10,16 +10,19 @@ export class PrimeNGTreeNode {
     public parent: PrimeNGTreeNode = null;
     public children: PrimeNGTreeNode[] = new Array<PrimeNGTreeNode>();
     public expanded: boolean;
+    public editMode: boolean = false;
 
     constructor() {
 
     }
 
-    public addSubNode(label: string) {
+    public addSubNode(label: string): PrimeNGTreeNode {
         let newNode: PrimeNGTreeNode = new PrimeNGTreeNode();
         newNode.label = label;
         this.children.push(newNode);
         this.expanded = true;
+
+        return newNode;
     }
 }
 
@@ -36,6 +39,7 @@ export class ParttypeComponent implements OnInit {
     private _primeNGTree: PrimeNGTreeNode[];
     private service: PartService;
 
+
     constructor(service: PartService) {
         this.service = service;
 
@@ -50,8 +54,17 @@ export class ParttypeComponent implements OnInit {
     }
 
     public addSubNode(node: PrimeNGTreeNode) {
-        node.addSubNode('nouveau type');
+        let newNode: PrimeNGTreeNode = node.addSubNode('nouveau type');
+        this.setEditMode(newNode, true);
     }
+
+
+    public setEditMode(node: PrimeNGTreeNode, edit: boolean) {
+        node.editMode = edit;
+
+    }
+
+
 
     /**
      * retourne un tableau contenant la représentation de l'arbre des types de composants (PartTypeTree)

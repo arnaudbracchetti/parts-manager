@@ -3,6 +3,7 @@ import {PartService} from '../services/part.service';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 import {ParttypeComponent, PrimeNGTreeNode} from './parttype.component';
 
@@ -17,7 +18,7 @@ describe('ParttypeComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ParttypeComponent],
-            imports: [TreeModule],
+            imports: [TreeModule, FormsModule],
             providers: [PartService]
         })
             .compileComponents();

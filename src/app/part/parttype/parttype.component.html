@@ -8,12 +8,18 @@
 </clr-tree-node> -->
 
  <p-tree [value]="_primeNGTree" selectionMode="single" layout="horizontal">
-<ng-template let-node  pTemplate="default">
-        <span>{{node.label}} parent: {{node.parent? node.parent.label:""}}</span>
-        <span><button pButton id="addNode" icon="fa-plus-circle" (click)="addSubNode(node)"> </button> </span>
+	<ng-template let-node  pTemplate="default">
+		<div *ngIf="!node.editMode" (dblclick)="setEditMode(node, true)">
+        	<span>{{node.label}}</span>
+        	<span><button pButton id="addNode" icon="fa-plus-circle" (click)="addSubNode(node)"> </button> </span>
+    	</div>
+    	
+    	
+    	<div *ngIf="node.editMode">
+    		<input id="editNode" [(ngModel)]="node.label" type="text" style="width:100%" (blur)="setEditMode(node, false)">
+    	</div>
+    	
+    	
     </ng-template>
-    <!-- <ng-template let-node  pTemplate="edit">
-        <input [(ngModel)]="node.label" type="text" style="width:100%">
-    </ng-template> -->
-
+    
 </p-tree> 
