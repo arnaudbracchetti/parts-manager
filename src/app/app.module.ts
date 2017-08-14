@@ -21,6 +21,7 @@ import {ButtonModule} from 'primeng/primeng';
 import {ToolbarModule} from 'primeng/primeng';
 import {MenuModule} from 'primeng/primeng';
 import {TreeModule} from 'primeng/primeng';
+import { FocusDirective } from './shared/focus/focus.directive';
 
 
 
@@ -29,7 +30,8 @@ import {TreeModule} from 'primeng/primeng';
         AppComponent,
         PartlistComponent,
         PartformComponent,
-        ParttypeComponent
+        ParttypeComponent,
+        FocusDirective
 
     ],
     imports: [

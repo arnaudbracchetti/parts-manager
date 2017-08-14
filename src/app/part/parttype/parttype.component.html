@@ -16,7 +16,7 @@
     	
     	
     	<div *ngIf="node.editMode">
-    		<input id="editNode" [(ngModel)]="node.label" type="text" style="width:100%" (blur)="setEditMode(node, false)">
+    		<input id="editNode" abFocus [(ngModel)]="node.label" type="text" style="width:100%" (blur)="setEditMode(node, false)">
     	</div>
     	
     	
