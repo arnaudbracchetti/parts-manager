@@ -1,4 +1,19 @@
 button.ui-button {
 	border: none;
 	background: transparent;
+	
+}
+
+>>> .ui-tree {
+	border: none;
+	background: none;
+}
+
+>>> .ui-tree-horizontal .ui-treenode-content {
+	padding: 0;
+	font-size: .8em;
+}
+
+>>> .ui-tree.ui-tree-horizontal .ui-treenode {
+	padding: .2em .5em;
 }
