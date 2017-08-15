@@ -112,17 +112,42 @@ describe('ParttypeComponent', () => {
 
     });
 
+
+
     describe('Add new element in tree', () => {
-        it('should add a new node when + button is cliked', () => {
+        let addButton: HTMLButtonElement;
+
+        // define the addButton
+        beforeEach(() => {
             let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
             let NodeCount = el.length;
 
 
             el = el[0].querySelectorAll('button#addNode');
 
-            // expect(el.length).toBe(1, "we must have one add button");
+            addButton = el[0] as HTMLButtonElement;
+        });
 
-            (el[0] as HTMLElement).click();
+        it('should call addSubType() when add button is clicked', () => {
+
+            spyOn(component, 'addSubType');
+
+
+
+            addButton.click();
+            fixture.detectChanges();
+
+            expect(component.addSubType).toHaveBeenCalled();
+
+
+        });
+
+        it('should add a new node when add button is clicked', () => {
+            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
+            let NodeCount = el.length;
+
+
+            addButton.click();
             fixture.detectChanges();
 
             // On doit avoir un noeud de plus
@@ -134,13 +159,11 @@ describe('ParttypeComponent', () => {
         });
 
         it('should set the new element in edit mode', () => {
-            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
-            el = el[0].querySelectorAll('button#addNode');
 
-            (el[0] as HTMLElement).click();
+            addButton.click();
             fixture.detectChanges();
 
-            el = fixture.nativeElement.querySelectorAll('input#editNode');
+            let el = fixture.nativeElement.querySelectorAll('input#editNode');
 
             expect(el.length).toBe(1, 'One node must be in edit mode');
         });

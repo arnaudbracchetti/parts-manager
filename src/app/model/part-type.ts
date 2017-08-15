@@ -90,7 +90,7 @@ export class PartType {
             count++;
         }
 
-        console.log(count);
+
 
         if (found) {
             return this._children.splice(count, 1)[0];

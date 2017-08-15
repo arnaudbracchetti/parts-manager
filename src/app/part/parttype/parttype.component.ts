@@ -53,7 +53,7 @@ export class ParttypeComponent implements OnInit {
 
     }
 
-    public addSubNode(node: PrimeNGTreeNode) {
+    public addSubType(node: PrimeNGTreeNode) {
         let newNode: PrimeNGTreeNode = node.addSubNode('nouveau type');
         this.setEditMode(newNode, true);
     }
