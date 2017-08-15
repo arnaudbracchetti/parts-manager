@@ -21,8 +21,8 @@
       "styles": [
        	"../node_modules/font-awesome/css/font-awesome.min.css",
   		"../node_modules/primeng/resources/primeng.min.css",
-  		"../node_modules/primeng/resources/themes/ludvig/theme.css",
-        "styles.css"
+  		"assets/themes/default/theme.scss",
+        "styles.scss"
       ],
       "scripts": [
   		"../node_modules/@webcomponents/custom-elements/custom-elements.min.js"
@@ -60,7 +60,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "component": {}
   }
 }

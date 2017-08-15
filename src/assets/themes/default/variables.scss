@@ -1,0 +1,71 @@
+
+$dark-border-color: #d4d4d4;
+$component-bg-color: #fafafa;
+$dark-component-bg-color: #eaeaea;
+$dark-text-color: #081c22;
+$dark-bg-color: #2790b0;
+$light-text-color: #ffffff;
+$light-bg-color: #ffffff;
+$light-border-color: #b8ccd2;
+$hilight-border-color: #eecc00;
+$error-bg-color: #ec4e4e;
+
+
+
+
+$fontFamily: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Segoe UI Symbol";
+$fontSize: 1em;
+$borderRadius: 2px;
+$disabledOpacity: 0.35;
+
+//Header
+$headerBorderWidth: 1px;
+$headerBorderColor: $dark-bg-color;
+$headerBgColor: $dark-bg-color;
+$headerTextColor: $light-text-color;
+$headerFontWeight: 500;
+$headerIconTextColor: $light-text-color;
+
+//Content
+$contentBorderWidth: 1px;
+$contentBorderColor: $dark-border-color;
+$contentBgColor: $component-bg-color;
+$contentTextColor: $dark-text-color;
+
+//Default State
+$stateDefaultBorderWidth: 1px;
+$stateDefaultBorderColor: $dark-border-color;
+$stateDefaultBgColor: $component-bg-color;
+$stateDefaultTextColor: $dark-text-color;
+
+//Active State
+$stateActiveBorderColor: $light-border-color;
+$stateActiveBgColor: #cad7dc;
+$stateActiveTextColor: $dark-text-color;
+
+//Highlight State
+$stateHighlightBorderColor: $hilight-border-color;
+$stateHighlightBgColor: $hilight-border-color;
+$stateHighlightTextColor: $dark-text-color;
+
+//Focus State
+$stateFocusBorderColor: $hilight-border-color;
+$stateFocusBgColor: $hilight-border-color;
+$stateFocusTextColor: $dark-text-color;
+
+//Error State
+$stateErrorBorderColor: $error-bg-color;
+$stateErrorBgColor: $error-bg-color;
+$stateErrorTextColor: $light-text-color;
+
+//Hover State
+$stateHoverBorderColor: $dark-border-color;
+$stateHoverBgColor: $dark-component-bg-color;
+$stateHoverTextColor: $dark-text-color;
+
+//Forms
+$inputBgColor: $light-bg-color;
+$inputTextColor: $dark-text-color;
+$invalidInputBorderColor: $error-bg-color;
+$inputGroupTextColor: $dark-text-color;
+
