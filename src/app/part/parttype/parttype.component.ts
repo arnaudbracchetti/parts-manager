@@ -31,7 +31,7 @@ export class PrimeNGTreeNode {
 @Component({
     selector: 'ms-parttype',
     templateUrl: './parttype.component.html',
-    styleUrls: ['./parttype.component.css']
+    styleUrls: ['./parttype.component.scss']
 })
 export class ParttypeComponent implements OnInit {
 

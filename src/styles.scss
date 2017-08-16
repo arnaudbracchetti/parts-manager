@@ -1,3 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
 $the-color: red; 
+
+
+.badge {
+    
+    font-size: .6em;
+    border-radius: .9em;
+    display: inline-block;
+    min-width: 1.4em;
+    height: 1.4em;
+    text-align: center;
+    line-height: 1.4em;
+    vertical-align:middle;
+    padding: 0.1em 0.1em;
+    
+    &.red {
+    background-color: red;
+    border-color: black;
+}
+    
+   
+}

@@ -11,7 +11,7 @@
 	<ng-template let-node  pTemplate="default">
 		<div *ngIf="!node.editMode" (dblclick)="setEditMode(node, true)">
         	<span>{{node.label}}</span>
-        	<span><button pButton id="addNode" icon="fa-plus-circle" (click)="addSubType(node)"> </button> </span>
+        	<span id="addNode" class="badge red"  (click)="addSubType(node)"><i class="fa fa-plus fa-inverse"></i> </span>
     	</div>
     	
     	
