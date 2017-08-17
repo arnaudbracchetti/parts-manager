@@ -24,6 +24,26 @@ export class PrimeNGTreeNode {
 
         return newNode;
     }
+
+    public deleteNode() {
+
+        if (this.children.length === 0) {
+            if (this.parent) {
+                let index = this.parent.children.indexOf(this);
+
+                if (index !== -1) {
+                    this.parent.children.splice(index, 1);
+                    this.parent = undefined;
+                }
+            }
+        } else {
+            throw new Error();
+        }
+    }
+
+    toString() {
+        return this.label;
+    }
 }
 
 
@@ -58,6 +78,22 @@ export class ParttypeComponent implements OnInit {
         this.setEditMode(newNode, true);
     }
 
+    public deletePartType(partType: PrimeNGTreeNode) {
+
+        try {
+            if (partType) {
+                partType.deleteNode();
+            }
+        } catch (e) {
+            this.addError((e as Error).message);
+        }
+
+    }
+
+
+    public addError(message: string) {
+
+    }
 
     public setEditMode(node: PrimeNGTreeNode, edit: boolean) {
         node.editMode = edit;

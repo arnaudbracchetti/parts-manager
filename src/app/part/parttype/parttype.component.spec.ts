@@ -10,6 +10,29 @@ import {ParttypeComponent, PrimeNGTreeNode} from './parttype.component';
 import {TreeModule} from 'primeng/primeng';
 
 import {TreeNode} from 'primeng/primeng';
+import {ForOfStatement} from 'typescript';
+
+
+function getNodeBylabel(root: PrimeNGTreeNode, label: string): PrimeNGTreeNode {
+
+    let ret = null;
+
+    if (root.label === label) {
+        ret = root;
+    } else {
+        for (let item of root.children) {
+
+            ret = getNodeBylabel(item, label);
+
+            if (ret !== null) {
+                break;
+            }
+
+        }
+    }
+
+    return ret;
+}
 
 describe('ParttypeComponent', () => {
     let component: ParttypeComponent;
@@ -115,7 +138,8 @@ describe('ParttypeComponent', () => {
 
 
     describe('Add new element in tree', () => {
-        let addButton: HTMLButtonElement;
+        let addButton: HTMLElement;
+
 
         // define the addButton
         beforeEach(() => {
@@ -123,9 +147,9 @@ describe('ParttypeComponent', () => {
             let NodeCount = el.length;
 
 
-            el = el[0].querySelectorAll('button#addNode');
+            el = el[0].querySelectorAll('#addButton');
 
-            addButton = el[0] as HTMLButtonElement;
+            addButton = el[0] as HTMLElement;
         });
 
         it('should call addSubType() when add button is clicked', () => {
@@ -167,6 +191,101 @@ describe('ParttypeComponent', () => {
 
             expect(el.length).toBe(1, 'One node must be in edit mode');
         });
+    });
+
+
+
+
+    describe('Delete element in tree', () => {
+
+
+
+        it('should call deletePartType() when delete button is clked', () => {
+
+            let el: HTMLElement = fixture.nativeElement.querySelector(`p-treenodetemplateloader[ng-reflect-node=T01]~div #deleteButton`);
+            spyOn(component, 'deletePartType');
+
+            el.click();
+            fixture.detectChanges();
+
+            expect(component.deletePartType).toHaveBeenCalledWith(jasmine.any(PrimeNGTreeNode));
+
+        });
+
+
+        it('should delete an element in tree when there is no children', () => {
+            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
+            let NodeCount = el.length;
+
+            let node = getNodeBylabel(component.getPrimeNgTree()[0], 'T01'); // T01 node have no child
+
+            component.deletePartType(node);
+            fixture.detectChanges();
+
+            expect(fixture.nativeElement.querySelectorAll('p-treenode').length).toBe(NodeCount - 1);
+
+        });
+
+        it('should not delete an element in tree when there is any children', () => {
+            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
+            let NodeCount = el.length;
+
+            let node = getNodeBylabel(component.getPrimeNgTree()[0], 'T02'); // T02 node have children
+
+            component.deletePartType(node);
+            fixture.detectChanges();
+
+            expect(fixture.nativeElement.querySelectorAll('p-treenode').length).toBe(NodeCount);
+
+        });
+
+        it('should set error message when there is any children', () => {
+
+            spyOn(component, 'addError');
+
+            let node = getNodeBylabel(component.getPrimeNgTree()[0], 'T02'); // T02 node have children
+
+            component.deletePartType(node);
+            fixture.detectChanges();
+
+            expect(component.addError).toHaveBeenCalled();
+        });
+
+
+
+    });
+
+
+    describe('Edit mode', () => {
+
+        xit('should restore the initial label if end edit mode with the restore flag set to true', () => {
+
+        });
+
+        xit('should set the restore flag to true if we exit edit mode with escape', () => {
+
+        });
+
+        xit('should set the restore flag to true if we exit edit mode and label is empty', () => {
+
+        });
+
+        xit('should set the restore flag to false if we exit edit mode with enter', () => {
+
+        });
+
+        xit('should set the restore flag to false if we exit edit mode by blur', () => {
+
+        });
+
+        xit('should set error message when we exit edit mode en label si empty', () => {
+
+        });
+
+
+
+
+
     });
 });
 
