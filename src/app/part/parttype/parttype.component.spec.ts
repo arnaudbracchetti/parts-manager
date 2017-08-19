@@ -323,7 +323,7 @@ describe('ParttypeComponent', () => {
             input.dispatchEvent(new KeyboardEvent('keyup', {key: 'Escape'}));
             fixture.detectChanges();
 
-            expect(component.setEditMode).toHaveBeenCalledTimes(1);
+            expect(component.setEditMode).toHaveBeenCalledTimes(2);
             expect(component.setEditMode).toHaveBeenCalledWith(jasmine.any(PrimeNGTreeNode), false, true);
             expect(component.addError).not.toHaveBeenCalled();
 
