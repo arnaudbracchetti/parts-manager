@@ -27,10 +27,7 @@ export class FocusDirective implements AfterViewInit {
         el.select();
     }
 
-    @HostListener('keyup.enter', ['$event'])
-    public blur() {
-        this.elRef.nativeElement.blur();
-    }
+
 
 
 

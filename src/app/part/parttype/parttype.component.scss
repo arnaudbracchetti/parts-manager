@@ -10,7 +10,7 @@
 	font-size: .7em;
 }
 
-::ng-deep .ui-tree-horizontal.ui-treenode {
+::ng-deep .ui-tree.ui-tree-horizontal .ui-treenode {
 	padding: 0em .5em;
 	
 }
@@ -30,6 +30,6 @@
 
 
 .badge {
-	font-size: .3em;
+	font-size: .9em;
 
 }

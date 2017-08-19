@@ -1,6 +1,7 @@
 import {PartType} from '../../model/part-type';
+import {FocusDirective} from '../../shared/focus/focus.directive';
 import {PartService} from '../services/part.service';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {FormsModule} from '@angular/forms';
@@ -12,8 +13,10 @@ import {TreeModule} from 'primeng/primeng';
 import {TreeNode} from 'primeng/primeng';
 import {ForOfStatement} from 'typescript';
 
-
-function getNodeBylabel(root: PrimeNGTreeNode, label: string): PrimeNGTreeNode {
+/**
+ * Fonctions utilitaire pour les tests du composant
+ */
+function testUtil_getNodeBylabel(root: PrimeNGTreeNode, label: string): PrimeNGTreeNode {
 
     let ret = null;
 
@@ -22,7 +25,7 @@ function getNodeBylabel(root: PrimeNGTreeNode, label: string): PrimeNGTreeNode {
     } else {
         for (let item of root.children) {
 
-            ret = getNodeBylabel(item, label);
+            ret = testUtil_getNodeBylabel(item, label);
 
             if (ret !== null) {
                 break;
@@ -34,13 +37,34 @@ function getNodeBylabel(root: PrimeNGTreeNode, label: string): PrimeNGTreeNode {
     return ret;
 }
 
+function testUtil_getDeleteButton(fixture: ComponentFixture<ParttypeComponent>, label: string): HTMLElement {
+    return fixture.nativeElement.querySelector(`p-treenodetemplateloader[ng-reflect-node=T01]~div #deleteButton`);
+}
+
+function testUtil_getAddButton(fixture: ComponentFixture<ParttypeComponent>, label: string): HTMLElement {
+    return fixture.nativeElement.querySelector(`p-treenodetemplateloader[ng-reflect-node=T01]~div #addButton`);
+}
+
+function testUtil_getEditedNodeInput(fixture: ComponentFixture<ParttypeComponent>): HTMLInputElement {
+    return fixture.nativeElement.querySelector(`input#editNode`);
+}
+
+function testUtil_getUiNodeCount(fixture: ComponentFixture<ParttypeComponent>): number {
+    return fixture.nativeElement.querySelectorAll('p-treenode').length;
+}
+
+
+/**
+ * Début des tests
+ */
+
 describe('ParttypeComponent', () => {
     let component: ParttypeComponent;
     let fixture: ComponentFixture<ParttypeComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ParttypeComponent],
+            declarations: [ParttypeComponent, FocusDirective],
             imports: [TreeModule, FormsModule],
             providers: [PartService]
         })
@@ -138,18 +162,20 @@ describe('ParttypeComponent', () => {
 
 
     describe('Add new element in tree', () => {
-        let addButton: HTMLElement;
+        // let addButton: HTMLElement;
 
 
         // define the addButton
         beforeEach(() => {
-            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
+
+            //XXX refactor supprimer les commentaires
+            /*let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
             let NodeCount = el.length;
 
 
             el = el[0].querySelectorAll('#addButton');
 
-            addButton = el[0] as HTMLElement;
+            addButton = el[0] as HTMLElement;*/
         });
 
         it('should call addSubType() when add button is clicked', () => {
@@ -157,8 +183,8 @@ describe('ParttypeComponent', () => {
             spyOn(component, 'addSubType');
 
 
-
-            addButton.click();
+            testUtil_getAddButton(fixture, 'T02').click();
+            //XXX: addButton.click();
             fixture.detectChanges();
 
             expect(component.addSubType).toHaveBeenCalled();
@@ -167,16 +193,16 @@ describe('ParttypeComponent', () => {
         });
 
         it('should add a new node when add button is clicked', () => {
-            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
-            let NodeCount = el.length;
+            // XXX let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
+            // let NodeCount = el.length;
 
+            let NodeCount = testUtil_getUiNodeCount(fixture);
 
-            addButton.click();
+            testUtil_getAddButton(fixture, 'T01').click();
             fixture.detectChanges();
 
             // On doit avoir un noeud de plus
-            el = fixture.nativeElement.querySelectorAll('p-treenode');
-            expect(el.length).toBe(NodeCount + 1, 'We must have one more node');
+            expect(testUtil_getUiNodeCount(fixture)).toBe(NodeCount + 1, 'We must have one more node');
 
 
 
@@ -184,12 +210,14 @@ describe('ParttypeComponent', () => {
 
         it('should set the new element in edit mode', () => {
 
-            addButton.click();
+            testUtil_getAddButton(fixture, 'T02').click();
             fixture.detectChanges();
 
-            let el = fixture.nativeElement.querySelectorAll('input#editNode');
+            //XXX let el = fixture.nativeElement.querySelectorAll('input#editNode');
+            let el = testUtil_getEditedNodeInput(fixture);
 
-            expect(el.length).toBe(1, 'One node must be in edit mode');
+
+            expect(el).toBeTruthy('One node must be in edit mode');
         });
     });
 
@@ -202,7 +230,7 @@ describe('ParttypeComponent', () => {
 
         it('should call deletePartType() when delete button is clked', () => {
 
-            let el: HTMLElement = fixture.nativeElement.querySelector(`p-treenodetemplateloader[ng-reflect-node=T01]~div #deleteButton`);
+            let el: HTMLElement = testUtil_getDeleteButton(fixture, 'T02');
             spyOn(component, 'deletePartType');
 
             el.click();
@@ -214,28 +242,29 @@ describe('ParttypeComponent', () => {
 
 
         it('should delete an element in tree when there is no children', () => {
-            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
-            let NodeCount = el.length;
+            // XXX let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
+            // let NodeCount = el.length;
+            let NodeCount = testUtil_getUiNodeCount(fixture);
 
-            let node = getNodeBylabel(component.getPrimeNgTree()[0], 'T01'); // T01 node have no child
+            let node = testUtil_getNodeBylabel(component.getPrimeNgTree()[0], 'T01'); // T01 node have no child
 
             component.deletePartType(node);
             fixture.detectChanges();
 
-            expect(fixture.nativeElement.querySelectorAll('p-treenode').length).toBe(NodeCount - 1);
+            expect(testUtil_getUiNodeCount(fixture)).toBe(NodeCount - 1);
 
         });
 
         it('should not delete an element in tree when there is any children', () => {
-            let el: NodeListOf<Element> = fixture.nativeElement.querySelectorAll('p-treenode');
-            let NodeCount = el.length;
 
-            let node = getNodeBylabel(component.getPrimeNgTree()[0], 'T02'); // T02 node have children
+            let NodeCount = testUtil_getUiNodeCount(fixture);
+
+            let node = testUtil_getNodeBylabel(component.getPrimeNgTree()[0], 'T02'); // T02 node have children
 
             component.deletePartType(node);
             fixture.detectChanges();
 
-            expect(fixture.nativeElement.querySelectorAll('p-treenode').length).toBe(NodeCount);
+            expect(testUtil_getUiNodeCount(fixture)).toBe(NodeCount);
 
         });
 
@@ -243,7 +272,7 @@ describe('ParttypeComponent', () => {
 
             spyOn(component, 'addError');
 
-            let node = getNodeBylabel(component.getPrimeNgTree()[0], 'T02'); // T02 node have children
+            let node = testUtil_getNodeBylabel(component.getPrimeNgTree()[0], 'T02'); // T02 node have children
 
             component.deletePartType(node);
             fixture.detectChanges();
@@ -258,29 +287,112 @@ describe('ParttypeComponent', () => {
 
     describe('Edit mode', () => {
 
-        xit('should restore the initial label if end edit mode with the restore flag set to true', () => {
+        let input: HTMLInputElement;
+
+        beforeEach(() => {
+
+            testUtil_getAddButton(fixture, 'T02').click();
+            fixture.detectChanges();
+
+            input = testUtil_getEditedNodeInput(fixture);
+
+            spyOn(component, 'setEditMode').and.callThrough();
+            spyOn(component, 'addError');
+
+
 
         });
 
-        xit('should set the restore flag to true if we exit edit mode with escape', () => {
+        it('should restore the initial label when end edit mode with the restore flag set to true', () => {
+            let test: PrimeNGTreeNode = testUtil_getNodeBylabel(component.getPrimeNgTree()[0], 'T01');
+            let initialLabel = test.label;
+
+
+            component.setEditMode(test, true);
+            test.label = 'changed';
+            component.setEditMode(test, false, true);
+
+            expect(test.label).toBe(initialLabel, 'node label shoulnot change');
 
         });
 
-        xit('should set the restore flag to true if we exit edit mode and label is empty', () => {
+        it('should set the restore param to true without error if we exit edit mode with escape', () => {
+
+
+
+            input.dispatchEvent(new KeyboardEvent('keyup', {key: 'Escape'}));
+            fixture.detectChanges();
+
+            expect(component.setEditMode).toHaveBeenCalledTimes(1);
+            expect(component.setEditMode).toHaveBeenCalledWith(jasmine.any(PrimeNGTreeNode), false, true);
+            expect(component.addError).not.toHaveBeenCalled();
 
         });
 
-        xit('should set the restore flag to false if we exit edit mode with enter', () => {
+        it('should set the restore param to true with error if we exit edit mode by hitting enter and label is empty', fakeAsync(() => {
+
+
+            input.value = '';
+            input.dispatchEvent(new Event('input'));
+            tick();
+            fixture.detectChanges();
+
+
+
+            input.dispatchEvent(new KeyboardEvent('keyup', {key: 'Enter'}));
+            fixture.detectChanges();
+
+
+
+            expect(component.setEditMode).toHaveBeenCalledTimes(1);
+            expect(component.setEditMode).toHaveBeenCalledWith(jasmine.any(PrimeNGTreeNode), false, true);
+            expect(component.addError).toHaveBeenCalled();
+
+
+        }));
+
+        it('should set the restore param to true with error if we exit edit mode by blur and label is empty', fakeAsync(() => {
+
+            input.value = '';
+            input.dispatchEvent(new Event('input'));
+            tick();
+            fixture.detectChanges();
+
+            input.blur();
+            fixture.detectChanges();
+
+            expect(component.setEditMode).toHaveBeenCalledTimes(1);
+            expect(component.setEditMode).toHaveBeenCalledWith(jasmine.any(PrimeNGTreeNode), false, true);
+            expect(component.addError).toHaveBeenCalled();
+
+
+        }));
+
+        it('should set the restore param to false without error if we exit edit mode with enter and label not empty', () => {
+
+            input.value = 'new node';
+            input.dispatchEvent(new KeyboardEvent('keyup', {key: 'Enter'}));
+            fixture.detectChanges();
+
+            expect(component.setEditMode).toHaveBeenCalledTimes(1);
+            expect(component.setEditMode).toHaveBeenCalledWith(jasmine.any(PrimeNGTreeNode), false);
+            expect(component.addError).not.toHaveBeenCalled();
 
         });
 
-        xit('should set the restore flag to false if we exit edit mode by blur', () => {
+        xit('should set the restore param to false without error if we exit edit mode by blur and label not empty', () => {
 
+
+            input.value = 'new node';
+            input.blur();
+            fixture.detectChanges();
+
+            expect(component.setEditMode).toHaveBeenCalledTimes(1);
+            expect(component.setEditMode).toHaveBeenCalledWith(jasmine.any(PrimeNGTreeNode), false);
+            expect(component.addError).not.toHaveBeenCalled();
         });
 
-        xit('should set error message when we exit edit mode en label si empty', () => {
 
-        });
 
 
 

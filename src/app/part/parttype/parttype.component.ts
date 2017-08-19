@@ -58,6 +58,7 @@ export class ParttypeComponent implements OnInit {
 
     private _primeNGTree: PrimeNGTreeNode[];
     private service: PartService;
+    private _saveEditedLabel: string;
 
 
     constructor(service: PartService) {
@@ -95,7 +96,42 @@ export class ParttypeComponent implements OnInit {
 
     }
 
-    public setEditMode(node: PrimeNGTreeNode, edit: boolean) {
+    public cancelEditMode(node: PrimeNGTreeNode) {
+        this.setEditMode(node, false, true);
+    }
+
+    public validateAndExitEditMode(node: PrimeNGTreeNode) {
+        if (!node.label) {
+            // error : label can't be empty
+            this.addError('Part type can\'t be empty');
+            this.setEditMode(node, false, true);
+        } else {
+            this.setEditMode(node, false);
+        }
+    }
+
+
+
+
+    /**
+     * Manage edit mode for a node
+     * param :
+     * node : the node to manage
+     * edit : edit mode (true: enter edit mode / false: exit edit mode)
+     * restoreLabel : set to true to restor initial label when exiting edit mode
+     */
+    public setEditMode(node: PrimeNGTreeNode, edit: boolean, restoreLabel: boolean = false) {
+
+        if (edit === true) {
+            // save label when enter in edit mode
+            this._saveEditedLabel = node.label;
+        }
+
+        if (edit === false && restoreLabel === true) {
+            // need to restore label before exit edit mode
+            node.label = this._saveEditedLabel;
+        }
+
         node.editMode = edit;
 
     }
