@@ -4,12 +4,23 @@
 
 section.ab-message {
 	
-	padding: .3em 2em ;
-	margin-bottom: 3px;
-	border: 2px solid darken( $error-bg-color, 30% );
-	background-color: $error-bg-color;
+	padding: .3em 0 ;
+	display: grid;
+	grid-template-rows: 3em auto 2em;
+	
+	
 }
 
 article {
+	
+	display: grid;
+    grid-template-columns: 3em auto 2em;
+    align-items: center;
+	
+	border: 2px solid darken( $error-bg-color, 20% );
+	background-color: $error-bg-color;
+	color: lighten($error-bg-color, 30%);
+	margin-bottom: 3px;
+	padding: 3px .5em;
 	
 }

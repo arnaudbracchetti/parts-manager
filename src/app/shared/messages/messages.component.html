@@ -5,6 +5,16 @@
 
 <section *ngIf="service.getAllMessages().length != 0" class="ab-message">
 	<article *ngFor="let msg of service.getAllMessages()" class="ab-error">
-		{{msg}}
+		<span class="fa-stack fa-md">
+  			<i class="fa fa-circle-o fa-stack-2x"></i>
+  			<i class="fa fa-exclamation fa-stack-1x"></i>
+		</span>
+		
+		<span>
+			{{msg}}
+		</span>
+		
+		<span class="close fa fa-times" (click)="closeMessage(msg)">
+		</span>
 	</article>
 </section>

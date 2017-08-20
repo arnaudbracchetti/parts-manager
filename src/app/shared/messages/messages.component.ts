@@ -18,6 +18,10 @@ export class MessagesComponent implements OnInit {
     ngOnInit() {
     }
 
+    public closeMessage(msg: string) {
+        this.service.removeMessage(msg);
+    }
+
 
 
 }

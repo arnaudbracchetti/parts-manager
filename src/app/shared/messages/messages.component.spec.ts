@@ -44,6 +44,7 @@ describe('ErrorComponent', () => {
 
     it('should display nothing if there is no message to display', () => {
         spyOn<MessagesService>(component.service, 'getAllMessages').and.returnValue(new Array<string>());
+        fixture.detectChanges();
 
         let display: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('*');
 
@@ -54,7 +55,26 @@ describe('ErrorComponent', () => {
     });
 
 
-    xit('should remove error when user close it', () => {
+    it('should remove message when user close it', () => {
+        let service: MessagesService = TestBed.get(MessagesService);
+        service.addMessage('message1');
+        service.addMessage('message2');
+        fixture.detectChanges();
+
+        let closeEls: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('.close');
+        expect(closeEls.length).toBe(2);
+
+        closeEls[0].click();
+        fixture.detectChanges();
+
+        closeEls = fixture.nativeElement.querySelectorAll('.close');
+        expect(closeEls.length).toBe(1);
+
+        expect(service.getAllMessages()).not.toContain('message1');
+        expect(service.getAllMessages()).toContain('message2');
+
+
+
 
     });
 });
