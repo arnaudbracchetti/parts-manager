@@ -4,7 +4,7 @@
 <!-- <p-messages [value]="errors[i] "></p-messages> -->
 
 <section *ngIf="service.getAllMessages().length != 0" class="ab-message">
-	<article *ngFor="let msg of service.getAllMessages()" class="ab-error">
+	<article *ngFor="let msg of service.getAllMessages()" @state class="ab-error">
 		<span class="fa-stack fa-md">
   			<i class="fa fa-circle-o fa-stack-2x"></i>
   			<i class="fa fa-exclamation fa-stack-1x"></i>

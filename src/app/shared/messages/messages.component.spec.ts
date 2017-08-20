@@ -1,5 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, fakeAsync, tick, flush, ComponentFixture, TestBed} from '@angular/core/testing';
 import {BrowserModule} from '@angular/platform-browser';
+import {NoopAnimationsModule, BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {MessagesComponent} from './messages.component';
 import {MessagesService} from './messages.service';
@@ -12,7 +13,8 @@ describe('ErrorComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [MessagesComponent],
-            imports: [BrowserModule],
+            imports: [
+                BrowserAnimationsModule],
             providers: [MessagesService]
         })
             .compileComponents();
@@ -28,7 +30,7 @@ describe('ErrorComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should dispay error returned by MessageService', () => {
+    it('should dispay message returned by MessageService', () => {
 
         let service: MessagesService = TestBed.get(MessagesService);
 
@@ -64,17 +66,24 @@ describe('ErrorComponent', () => {
         let closeEls: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('.close');
         expect(closeEls.length).toBe(2);
 
+
         closeEls[0].click();
         fixture.detectChanges();
 
-        closeEls = fixture.nativeElement.querySelectorAll('.close');
-        expect(closeEls.length).toBe(1);
+        fixture.whenRenderingDone().then(() => {
 
-        expect(service.getAllMessages()).not.toContain('message1');
-        expect(service.getAllMessages()).toContain('message2');
+            console.log('toto');
+            closeEls = fixture.nativeElement.querySelectorAll('.close');
+            expect(closeEls.length).toBe(1);
+
+            expect(service.getAllMessages()).not.toContain('message1');
+            expect(service.getAllMessages()).toContain('message2');
 
 
-
+        });
 
     });
+
+
+
 });
