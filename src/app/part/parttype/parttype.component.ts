@@ -1,4 +1,5 @@
 import {PartType} from '../../model/part-type';
+import {MessagesService} from '../../shared/messages/messages.service';
 import {PartService} from '../services/part.service';
 import {TreeNode} from 'primeng/primeng';
 import {Component, OnInit, Input} from '@angular/core';
@@ -58,11 +59,13 @@ export class ParttypeComponent implements OnInit {
 
     private _primeNGTree: PrimeNGTreeNode[];
     private service: PartService;
+    private _msgService: MessagesService;
     private _saveEditedLabel: string;
 
 
-    constructor(service: PartService) {
+    constructor(service: PartService, msgService: MessagesService) {
         this.service = service;
+        this._msgService = msgService;
 
     }
 
@@ -93,6 +96,7 @@ export class ParttypeComponent implements OnInit {
 
 
     public addError(message: string) {
+        this._msgService.addMessage(message);
 
     }
 

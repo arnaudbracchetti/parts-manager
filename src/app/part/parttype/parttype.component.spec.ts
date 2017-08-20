@@ -1,4 +1,5 @@
 import {PartType} from '../../model/part-type';
+import {MessagesService} from '../../shared/messages/messages.service';
 import {FocusDirective} from '../../shared/focus/focus.directive';
 import {PartService} from '../services/part.service';
 import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
@@ -66,7 +67,7 @@ describe('ParttypeComponent', () => {
         TestBed.configureTestingModule({
             declarations: [ParttypeComponent, FocusDirective],
             imports: [TreeModule, FormsModule],
-            providers: [PartService]
+            providers: [PartService, MessagesService]
         })
             .compileComponents();
     }));

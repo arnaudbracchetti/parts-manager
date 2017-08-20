@@ -9,10 +9,13 @@ import {PartServiceFake} from './part/services/fake-part.service';
 import {PartService} from './part/services/part.service';
 import {AppComponent} from './app.component';
 import {PartType} from './model/part-type';
+import {FocusDirective} from './shared/focus/focus.directive';
+import {MessagesComponent} from './shared/messages/messages.component';
 import {PartlistComponent} from './part/partlist.component';
 import {PartformComponent} from './part/partform/partform.component';
 import {FormsModule} from '@angular/forms';
 import {ParttypeComponent} from './part/parttype/parttype.component';
+import {MessagesService} from './shared/messages/messages.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // primeNG
@@ -21,7 +24,8 @@ import {ButtonModule} from 'primeng/primeng';
 import {ToolbarModule} from 'primeng/primeng';
 import {MenuModule} from 'primeng/primeng';
 import {TreeModule} from 'primeng/primeng';
-import { FocusDirective } from './shared/focus/focus.directive';
+
+
 
 
 
@@ -31,7 +35,8 @@ import { FocusDirective } from './shared/focus/focus.directive';
         PartlistComponent,
         PartformComponent,
         ParttypeComponent,
-        FocusDirective
+        FocusDirective,
+        MessagesComponent
 
     ],
     imports: [
@@ -46,7 +51,8 @@ import { FocusDirective } from './shared/focus/focus.directive';
         TreeModule,
         SharedModule
     ],
-    providers: [{provide: PartService, useClass: PartServiceFake}],
+    providers: [{provide: PartService, useClass: PartServiceFake},
+        MessagesService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

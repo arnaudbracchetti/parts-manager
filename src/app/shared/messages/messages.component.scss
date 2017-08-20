@@ -1,0 +1,15 @@
+
+
+@import 'colors';
+
+section.ab-message {
+	
+	padding: .3em 2em ;
+	margin-bottom: 3px;
+	border: 2px solid darken( $error-bg-color, 30% );
+	background-color: $error-bg-color;
+}
+
+article {
+	
+}

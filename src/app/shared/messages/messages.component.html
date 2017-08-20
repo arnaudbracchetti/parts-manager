@@ -1,0 +1,10 @@
+
+
+
+<!-- <p-messages [value]="errors[i] "></p-messages> -->
+
+<section *ngIf="service.getAllMessages().length != 0" class="ab-message">
+	<article *ngFor="let msg of service.getAllMessages()" class="ab-error">
+		{{msg}}
+	</article>
+</section>
