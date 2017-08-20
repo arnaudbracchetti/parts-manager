@@ -1,19 +1,28 @@
 
-<div class="ui-g">
+<div class="wrapper">
     
-    <header class="ui-g-12 ui-g-nopad header">
+    <header class="header">
         <img src="/assets/parts manager logo.png">
     </header>
-    <nav class="ui-g-12 ui-g-nopad ">
+    
+    <nav >
         <p-toolbar></p-toolbar>
 
     </nav>
+    
+    <div class="message">
+    	<ab-error></ab-error>
     </div>
+    
+ 
     <div class="main">
     	
-            <p-menu [model]="menu"></p-menu>
+        <p-menu [model]="menu"></p-menu>
         
         <div class=" body">
             <router-outlet></router-outlet>
         </div>
     </div>
+</div>
+
+
