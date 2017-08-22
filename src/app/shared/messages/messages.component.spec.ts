@@ -4,6 +4,7 @@ import {NoopAnimationsModule, BrowserAnimationsModule} from '@angular/platform-b
 
 import {MessagesComponent} from './messages.component';
 import {MessagesService} from './messages.service';
+import {log} from 'util';
 
 
 describe('ErrorComponent', () => {
@@ -14,7 +15,7 @@ describe('ErrorComponent', () => {
         TestBed.configureTestingModule({
             declarations: [MessagesComponent],
             imports: [
-                BrowserAnimationsModule],
+                NoopAnimationsModule],
             providers: [MessagesService]
         })
             .compileComponents();
@@ -57,7 +58,7 @@ describe('ErrorComponent', () => {
     });
 
 
-    it('should remove message when user close it', () => {
+    it('should remove message when user close it', async(() => {
         let service: MessagesService = TestBed.get(MessagesService);
         service.addMessage('message1');
         service.addMessage('message2');
@@ -72,7 +73,7 @@ describe('ErrorComponent', () => {
 
         fixture.whenRenderingDone().then(() => {
 
-            console.log('toto');
+
             closeEls = fixture.nativeElement.querySelectorAll('.close');
             expect(closeEls.length).toBe(1);
 
@@ -80,10 +81,15 @@ describe('ErrorComponent', () => {
             expect(service.getAllMessages()).toContain('message2');
 
 
+
         });
 
-    });
+
+    }));
+
 
 
 
 });
+
+
