@@ -10,7 +10,7 @@ $borderRadius: 2px;
 $disabledOpacity: 0.35;
 
 //Header
-$headerBorderWidth: 1px;
+$headerBorderWidth: $BorderWidth;
 $headerBorderColor: $dark-bg-color;
 $headerBgColor: $dark-bg-color;
 $headerTextColor: $light-text-color;
@@ -18,13 +18,13 @@ $headerFontWeight: 500;
 $headerIconTextColor: $light-text-color;
 
 //Content
-$contentBorderWidth: 1px;
+$contentBorderWidth: $BorderWidth;
 $contentBorderColor: $dark-border-color;
 $contentBgColor: $component-bg-color;
 $contentTextColor: $dark-text-color;
 
 //Default State
-$stateDefaultBorderWidth: 1px;
+$stateDefaultBorderWidth: $BorderWidth;
 $stateDefaultBorderColor: $dark-border-color;
 $stateDefaultBgColor: $component-bg-color;
 $stateDefaultTextColor: $dark-text-color;
