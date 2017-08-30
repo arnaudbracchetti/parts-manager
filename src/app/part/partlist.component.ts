@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 
 
 @Component({
-    selector: 'ms-part-list',
+    selector: 'pm-part-list',
     templateUrl: './partlist.component.html',
     styleUrls: ['./partlist.component.css']
 })

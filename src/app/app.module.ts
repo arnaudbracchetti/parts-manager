@@ -8,13 +8,12 @@ import {ROUTES} from './app.routes';
 import {PartServiceFake} from './part/services/fake-part.service';
 import {PartService} from './part/services/part.service';
 import {AppComponent} from './app.component';
-import {PartType} from './model/part-type';
 import {FocusDirective} from './shared/focus/focus.directive';
 import {MessagesComponent} from './shared/messages/messages.component';
 import {PartlistComponent} from './part/partlist.component';
 import {PartformComponent} from './part/partform/partform.component';
 import {FormsModule} from '@angular/forms';
-import {ParttypeComponent} from './part/parttype/parttype.component';
+import {PartCategoryComponent} from './part/part-category/partcategory.component';
 import {MessagesService} from './shared/messages/messages.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -34,7 +33,7 @@ import {TreeModule} from 'primeng/primeng';
         AppComponent,
         PartlistComponent,
         PartformComponent,
-        ParttypeComponent,
+        PartCategoryComponent,
         FocusDirective,
         MessagesComponent
 

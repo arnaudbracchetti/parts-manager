@@ -7,7 +7,7 @@
 	<ms-parttype *ngFor="let partType of partTypeTree.children" partTypeTree="partType"></ms-parttype>
 </clr-tree-node> -->
 
- <p-tree [value]="_primeNGTree" selectionMode="single" layout="horizontal">
+ <p-tree [value]="_partCategoryTree" selectionMode="single" layout="horizontal">
 	<ng-template let-node  pTemplate="default">
 		<div *ngIf="!node.editMode" (dblclick)="setEditMode(node, true)">
         	<span>{{node.label}}</span>
