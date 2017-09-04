@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {environment} from '../environments/environment';
 
 
 import {RouterModule} from '@angular/router';
@@ -16,6 +17,11 @@ import {FormsModule} from '@angular/forms';
 import {PartCategoryComponent} from './part/part-category/partcategory.component';
 import {MessagesService} from './shared/messages/messages.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+// Firebase
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {AngularFireAuthModule} from 'angularfire2/auth';
 
 // primeNG
 import {DataTableModule, SharedModule} from 'primeng/primeng';
@@ -48,7 +54,10 @@ import {TreeModule} from 'primeng/primeng';
         MenuModule,
         ToolbarModule,
         TreeModule,
-        SharedModule
+        SharedModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule, // imports firebase/database, only needed for database features
+        AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     ],
     providers: [{provide: PartService, useClass: PartServiceFake},
         MessagesService],

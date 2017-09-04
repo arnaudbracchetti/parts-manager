@@ -40,7 +40,9 @@ export class PartCategoryComponent implements OnInit {
     }
 
     public addSubType(node: PartCategory) {
-        let newNode: PartCategory = node.addSubCategory('nouveau type');
+
+        let newNode: PartCategory = new PartCategory('nouveau type');
+        node.addSubCategory(newNode);
         this.setEditMode(newNode, true);
     }
 
