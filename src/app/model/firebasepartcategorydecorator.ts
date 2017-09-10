@@ -12,6 +12,7 @@ export class FirebasePartCategoryDecorator extends PartCategoryDecorator {
     private _fbDatabase: AngularFireDatabase;
     private _ignioreFirstAddChildNotification: Set<string> = new Set<string>();
     private _percitencyInitialized: boolean = false;
+    private _saveDebounceID;
 
     get parent(): FirebasePartCategoryDecorator {
         if (this._decorated.parent) {
@@ -46,15 +47,24 @@ export class FirebasePartCategoryDecorator extends PartCategoryDecorator {
 
     public save(): void {
 
-        if (this.isPercistent()) {
-            this._fbDatabase.database.ref(`/part-category/${this._decorated.id}`).set({ label: this._decorated.label });
-        } else {
-            let saved: firebase.database.ThenableReference =
-                this._fbDatabase.database.ref(`/part-category/`).push({ label: this._decorated.label });
-
-            this._decorated.id = saved.key;
-            this._initFromFb(this._decorated.id);
+        if (this._saveDebounceID) {
+            // on annule l'opération en attente si elle existe
+            clearTimeout(this._saveDebounceID);
+            this._saveDebounceID = undefined;
         }
+
+        // on place la demande de sauvegarde en attente pour limiter le nombre d'appel au serveur
+        this._saveDebounceID = setTimeout(() => {
+            if (this.isPercistent()) {
+                this._fbDatabase.database.ref(`/part-category/${this._decorated.id}`).set({ label: this._decorated.label });
+            } else {
+                let saved: firebase.database.ThenableReference =
+                    this._fbDatabase.database.ref(`/part-category/`).push({ label: this._decorated.label });
+
+                this._decorated.id = saved.key;
+                this._initFromFb(this._decorated.id);
+            }
+        }, 1000);
     }
 
 
