@@ -1,10 +1,10 @@
 
 
-import {MessagesService} from '../../shared/messages/messages.service';
-import {PartService} from '../services/part.service';
-import {TreeNode} from 'primeng/primeng';
-import {Component, OnInit, Input} from '@angular/core';
-import {PartCategory} from '../../model/part-category';
+import { MessagesService } from '../../shared/messages/messages.service';
+import { PartService } from '../services/part.service';
+import { TreeNode } from 'primeng/primeng';
+import { Component, OnInit, Input } from '@angular/core';
+import { PartCategory } from '../../model/part-category';
 
 
 
@@ -41,7 +41,7 @@ export class PartCategoryComponent implements OnInit {
 
     public addSubType(node: PartCategory) {
 
-        let newNode: PartCategory = new PartCategory('nouveau type');
+        let newNode: PartCategory = this.service.createPartCategory('nouveau type');
         node.addSubCategory(newNode);
         this.setEditMode(newNode, true);
     }

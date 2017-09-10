@@ -1,8 +1,9 @@
-import {Part} from '../../model/part';
-import {PartCategory} from '../../model/part-category';
-import {Injectable} from '@angular/core';
-import {AngularFireDatabase, FirebaseObjectObservable} from 'angularfire2/database';
-import {Observable} from 'rxjs/Rx';
+import { Part } from '../../model/part';
+import { PartCategory } from '../../model/part-category';
+import { FirebasePartCategoryDecorator } from '../../model/firebasepartcategorydecorator';
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class PartService {
@@ -10,6 +11,7 @@ export class PartService {
 
     public parts: Part[];
     public partCategoryRoot: PartCategory;
+    public db: AngularFireDatabase;
 
     private _partCategoryRoot$: FirebaseObjectObservable<PartCategory>;
 
@@ -17,9 +19,9 @@ export class PartService {
     constructor(db: AngularFireDatabase) {
         this.parts = this.loadParts();
 
+        this.db = db;
 
-
-        this.partCategoryRoot = new PartCategory('root', db);
+        this.partCategoryRoot = this.loadPartCategory('root');
 
 
 
@@ -64,6 +66,17 @@ export class PartService {
     }
 
 
+    public loadPartCategory(key: string): PartCategory {
+        return new PartCategory(new FirebasePartCategoryDecorator(this.db), 'root');
+
+    }
+
+    public createPartCategory(label: string): PartCategory {
+        let ret: PartCategory = new PartCategory(new FirebasePartCategoryDecorator(this.db));
+        ret.label = label;
+
+        return ret;
+    }
 
     public addSubPartCategory(parent: PartCategory, label: string): PartCategory {
         // XXX: reactiver aprés le refactoring de Fb
