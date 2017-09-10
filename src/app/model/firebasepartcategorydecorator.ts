@@ -1,6 +1,7 @@
 
 
-import { PartCategoryDecorator, PartCategory } from './part-category';
+import { PartCategoryDecorator, PartCategory, PartCategoryFactory } from './part-category';
+import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 //import 'firebase/datbase';
@@ -10,9 +11,18 @@ import * as firebase from 'firebase/app';
 export class FirebasePartCategoryDecorator extends PartCategoryDecorator {
 
     private _fbDatabase: AngularFireDatabase;
+    private _partCategoryFactory: PartCategoryFactory;
+
     private _ignioreFirstAddChildNotification: Set<string> = new Set<string>();
     private _percitencyInitialized: boolean = false;
     private _saveDebounceID;
+
+    constructor(fb: AngularFireDatabase, partCategoryFactory: PartCategoryFactory) {
+        super();
+
+        this._fbDatabase = fb;
+        this._partCategoryFactory = partCategoryFactory;
+    }
 
     get parent(): FirebasePartCategoryDecorator {
         if (this._decorated.parent) {
@@ -20,13 +30,6 @@ export class FirebasePartCategoryDecorator extends PartCategoryDecorator {
         } else {
             return undefined;
         }
-    }
-
-
-    constructor(fb: AngularFireDatabase) {
-        super();
-
-        this._fbDatabase = fb;
     }
 
 
@@ -134,8 +137,6 @@ export class FirebasePartCategoryDecorator extends PartCategoryDecorator {
             .on('child_removed', (child) => this._onRemoveChildFromFb(child));
 
         this._percitencyInitialized = true;
-
-        console.log(this._ignioreFirstAddChildNotification);
     }
 
 
@@ -159,11 +160,8 @@ export class FirebasePartCategoryDecorator extends PartCategoryDecorator {
         // on ajoute le "child" uniquement s'il n'est pas dans la liste des ignorées
 
         if (!this._ignioreFirstAddChildNotification.has(childSnapshot.key)) {
-            //FIXME: A revoir avec l'injection de dependances
-            let newPartCategory: PartCategory = new PartCategory(new FirebasePartCategoryDecorator(this._fbDatabase), childSnapshot.key, );
-
+            let newPartCategory: PartCategory = this._partCategoryFactory.create(childSnapshot.key);
             this._decorated.addSubCategory(newPartCategory);
-
         } else {
             this._ignioreFirstAddChildNotification.delete(childSnapshot.key);
         }
@@ -198,6 +196,26 @@ export class FirebasePartCategoryDecorator extends PartCategoryDecorator {
     }
 
 
+
+}
+
+@Injectable()
+export class FirebasePartCategoryFactory extends PartCategoryFactory {
+
+    private db: AngularFireDatabase;
+
+    constructor(db: AngularFireDatabase) {
+        super();
+        this.db = db;
+    }
+
+    public create(key?: string) {
+        if (key) {
+            return new PartCategory(new FirebasePartCategoryDecorator(this.db, this), key);
+        } else {
+            return new PartCategory(new FirebasePartCategoryDecorator(this.db, this));
+        }
+    }
 
 }
 

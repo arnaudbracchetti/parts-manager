@@ -26,7 +26,9 @@ export abstract class PartCategoryDecorator {
 
 }
 
-
+export abstract class PartCategoryFactory {
+    public abstract create(key?: string);
+}
 
 export class PartCategory {
 

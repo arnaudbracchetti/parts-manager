@@ -1,5 +1,5 @@
 import { Part } from '../../model/part';
-import { PartCategory } from '../../model/part-category';
+import { PartCategory, PartCategoryFactory } from '../../model/part-category';
 import { FirebasePartCategoryDecorator } from '../../model/firebasepartcategorydecorator';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
@@ -11,15 +11,17 @@ export class PartService {
 
     public parts: Part[];
     public partCategoryRoot: PartCategory;
-    public db: AngularFireDatabase;
+    //public db: AngularFireDatabase;
+    private partCategoryFactory: PartCategoryFactory;
 
     private _partCategoryRoot$: FirebaseObjectObservable<PartCategory>;
 
 
-    constructor(db: AngularFireDatabase) {
+    constructor(partCategoryFactory: PartCategoryFactory) {
         this.parts = this.loadParts();
 
-        this.db = db;
+        //this.db = db;
+        this.partCategoryFactory = partCategoryFactory;
 
         this.partCategoryRoot = this.loadPartCategory('root');
 
@@ -67,12 +69,14 @@ export class PartService {
 
 
     public loadPartCategory(key: string): PartCategory {
-        return new PartCategory(new FirebasePartCategoryDecorator(this.db), 'root');
+        //return new PartCategory(new FirebasePartCategoryDecorator(this.db), 'root');
+        return this.partCategoryFactory.create('root');
 
     }
 
     public createPartCategory(label: string): PartCategory {
-        let ret: PartCategory = new PartCategory(new FirebasePartCategoryDecorator(this.db));
+        //let ret: PartCategory = new PartCategory(new FirebasePartCategoryDecorator(this.db));
+        let ret: PartCategory = this.partCategoryFactory.create();
         ret.label = label;
 
         return ret;
